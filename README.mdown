@@ -35,7 +35,7 @@
 
 * Basic Linux skills (file copying and editing).
 
-##For all doorbell types
+##For all Doorbell Types
 
 1. Wire up a pushbutton on a GPIO pin of your choosing.
     1. There are many different ways to do this. _See online HOWTOs for doing this properly.
@@ -49,10 +49,12 @@
     1. Set ```input_pin``` to the 1-indexed board-centric pin _number_ that you used above, as shown [here](http://www.raspberrypi.org/learning/reaction-game/gpio.png).
     
     1. If your button takes your input pin LOW when pressed, set ```reverse_logic``` to ```True```. Otherwise, set it to ```False```.
-
-    1. Set ```ding_soundfile``` to the path to your 'DING' WAV file. It will be played on button _press_.
     
-    1. Set ```dong_soundfile``` to the path to your 'DONG' WAV file. It will be played on button _release_.
+    1. Set the paths of the WAV files you want to use (or leave them alone to use the default included sounds).
+
+        1. ```ding_soundfile``` will be played on button _press_.
+    
+        1. ```dong_soundfile``` will be played on button _release_.
     
     1. Set ```noise_location``` to reflect where you want your doorbell sounds to play.
 
@@ -62,7 +64,7 @@
     ```
 1. Press and release the button as you would a normal doorbell.
 
-##For [openHAB](http://www.openhab.org/) integration
+##For [openHAB](http://www.openhab.org/) Integration
 
 * In [openHAB](http://www.openhab.org/), add a "virtual" doorbell in your ```.items``` file for the doorbell, like so:
 ```
