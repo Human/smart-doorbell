@@ -29,6 +29,8 @@ class OpenHABInformer(threading.Thread):
         self.running = True
         self.get_off = False
         self.get_on = False
+        self.pressed_at = 0
+        self.informed_off = True
         self.logging = logging.getLogger(self.__class__.__name__)
 
     def seturl(self, baseurl):
@@ -45,20 +47,44 @@ class OpenHABInformer(threading.Thread):
         """
         self.timeout = timeout
 
+    def setcollapseinterval(self, collapseinterval):
+        """
+        Set the timeout, in seconds, that must pass after an OFF press before we send
+        openHAB an OFF state change. Prevents 'spamming' openHAB with tons of update
+        events if someone pounds the doorbell relentlessly.
+        """
+        self.collapseinterval = collapseinterval
+
     def run(self):
         """
         GET baseurl+'ON' when the doorbell is pressed, and baseurl+'OFF' when it is released.
         """
         while self.running:
             try:
-                if self.get_on:
-                    self.logging.debug(self.url_on)
-                    urllib2.urlopen(self.url_on, timeout=self.timeout)
-                    self.logging.info("(" + self.__class__.__name__ + ") doorbell ON")
-                if self.get_off:
-                    self.logging.debug(self.url_off)
-                    urllib2.urlopen(self.url_off, timeout=self.timeout)
-                    self.logging.info("(" + self.__class__.__name__ + ") doorbell OFF")
+                if self.get_on: # button pressed
+                    if time.time() - self.pressed_at > self.collapseinterval:
+                        # Enough time has passed since the last ON press; we can send this ON event
+                        self.logging.debug(self.url_on)
+                        urllib2.urlopen(self.url_on, timeout=self.timeout)
+                        self.logging.info("(" + self.__class__.__name__ + ") doorbell ON")
+                        self.informed_off = False
+                    self.pressed_at = time.time() # always remember the last time the button was pressed
+                if self.get_off: # button released
+                    if time.time() - self.pressed_at > self.collapseinterval:
+                        # Enough time has passed since the last ON press; we can send this OFF event
+                        self.logging.debug(self.url_off)
+                        urllib2.urlopen(self.url_off, timeout=self.timeout)
+                        self.logging.info("(" + self.__class__.__name__ + ") doorbell OFF")
+                        self.informed_off = True
+                        # Start the timing cycle over again; the next press will count as the start of a new cycle.
+                        self.pressed_at = 0
+                if not self.get_on and not self.get_off and not self.informed_off:
+                    if time.time() - self.pressed_at > self.collapseinterval:
+                        self.logging.debug(self.url_off)
+                        urllib2.urlopen(self.url_off, timeout=self.timeout)
+                        self.logging.info("(" + self.__class__.__name__ + ") doorbell OFF")
+                        self.informed_off = True
+                        self.pressed_at = 0
             except:
                 self.logging.warn("(" + self.__class__.__name__ + ") couldn't inform openHAB")
 

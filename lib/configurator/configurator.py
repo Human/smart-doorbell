@@ -61,6 +61,7 @@ class Configurator(threading.Thread):
                 if self.openhab_informer is not None:
                     self.openhab_informer.seturl(self.scp.get('openhab', 'openhab_doorbell_base_URL'))
                     self.openhab_informer.settimeout(self.scp.getint('openhab', 'timeout'))
+                    self.openhab_informer.setcollapseinterval(self.scp.getint('openhab', 'button_press_collapse_interval'))
             
             time.sleep(1)
 
