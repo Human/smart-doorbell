@@ -1,0 +1,19 @@
+- apt: name=openvpn state=latest force=yes
+
+- apt: name={{item}} state=latest force=yes
+  with_items:
+  - python
+  - python-rpi.gpio
+  - python-pygame
+  - rsync
+
+- synchronize: src={{repodir}}/{{item}} dest=/home/{{ansible_ssh_user}}/
+  with_items:
+  - SOUND_ATTRIBUTION.md
+  - sound
+  - README.md
+  - logging.conf
+  - LICENSE.txt
+  - lib
+  - doorbell.py
+  - doorbell_config.ini
