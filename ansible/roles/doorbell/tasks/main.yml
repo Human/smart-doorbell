@@ -1,11 +1,10 @@
-- apt: name=openvpn state=latest force=yes
-
 - apt: name={{item}} state=latest force=yes
   with_items:
   - python
   - python-rpi.gpio
   - python-pygame
   - rsync
+  - monit
 
 - synchronize: src={{repodir}}/{{item}} dest=/home/{{ansible_ssh_user}}/
   with_items:
@@ -17,3 +16,6 @@
   - lib
   - doorbell.py
   - doorbell_config.ini
+
+# fix audio hiss
+- lineinfile: dest=/boot/config.txt state=present line=disable_audio_dither=1

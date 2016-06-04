@@ -47,8 +47,8 @@ class Doorbell(threading.Thread):
             self.ding_edge = GPIO.RISING
             self.dong_edge = GPIO.FALLING
 
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.inpin, GPIO.IN)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.inpin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         self.logging = logging.getLogger(self.__class__.__name__)
 
     def run(self):
