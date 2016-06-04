@@ -16,6 +16,16 @@
   - lib
   - doorbell.py
   - doorbell_config.ini
+  - doorbell_runner.sh
 
 # fix audio hiss
 - lineinfile: dest=/boot/config.txt state=present line=disable_audio_dither=1
+
+- synchronize: src={{repodir}}/monit/monitrc dest=/etc/monit/conf.d/doorbell
+
+- name: make monit run on boot
+  synchronize: src={{repodir}}/monit/monit.service dest=/lib/systemd/system/monit.service
+
+- shell: systemctl daemon-reload
+- shell: systemctl enable monit.service
+- service: name=monit state=restarted
