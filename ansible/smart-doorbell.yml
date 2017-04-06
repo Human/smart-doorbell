@@ -1,26 +1,9 @@
-- name: Set Time Zone
-  hosts: doorbell
-  remote_user: pi
-  sudo: yes
-  gather_facts: False
-  tasks:
-    - name: Set timezone variables
-      copy: content='America/New_York'
-            dest=/etc/timezone
-            owner=root
-            group=root
-            mode=0644
-            backup=yes
-      notify:
-        - update timezone
-  handlers:
-    - name: update timezone
-      command: dpkg-reconfigure --frontend noninteractive tzdata
-
 - name: install doorbell
   hosts: doorbell
+  become_user: root
   remote_user: pi
-  sudo: yes
+  become: yes
+  become_method: sudo
   vars:
     repodir: /repos/smart-doorbell
   roles:

@@ -29,3 +29,5 @@
 - shell: systemctl daemon-reload
 - shell: systemctl enable monit.service
 - service: name=monit state=restarted
+
+- timezone: name=America/New_York
