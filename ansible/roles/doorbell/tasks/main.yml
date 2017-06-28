@@ -6,7 +6,9 @@
   - rsync
   - monit
 
-- synchronize: src={{repodir}}/{{item}} dest=/home/{{ansible_ssh_user}}/
+- file: dest=/home/{{ansible_ssh_user}}/doorbell state=directory
+
+- synchronize: src={{repodir}}/{{item}} dest=/home/{{ansible_ssh_user}}/doorbell/
   with_items:
   - SOUND_ATTRIBUTION.md
   - sound

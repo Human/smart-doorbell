@@ -1,4 +1,4 @@
 check process doorbell matching ".*python.*doorbell.py"
-      start program = "/home/pi/doorbell_runner.sh"
+      start program = "/home/pi/doorbell/doorbell_runner.sh"
       stop program = "/bin/ps aux | /bin/grep python | /bin/grep doorbell | awk '{print $2}' | /usr/bin/xargs kill"
 
