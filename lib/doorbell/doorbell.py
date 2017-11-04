@@ -23,7 +23,7 @@ class Doorbell(threading.Thread):
     pressed. Side effects include audio playback and  audio and video recording.
     """
 
-    def __init__(self, input_pin, reverse_logic, ding, dong, openhab_informer):
+    def __init__(self, input_pin, reverse_logic, ding, dong, ha_informer):
         """
         Create a doorbell that listens on input_pin and plays a 'ding'
         sound when it's pressed and a 'dong' sound when it's released.
@@ -37,8 +37,8 @@ class Doorbell(threading.Thread):
         self.dong = dong
         self.ding.start()
         self.dong.start()
-        self.openhab_informer = openhab_informer
-        self.openhab_informer.start()
+        self.ha_informer = ha_informer
+        self.ha_informer.start()
 
         if self.reverse_logic:
             self.ding_edge = GPIO.FALLING
@@ -58,11 +58,11 @@ class Doorbell(threading.Thread):
         while self.running:
             GPIO.wait_for_edge(self.inpin, self.ding_edge)
             self.ding.play()
-            self.openhab_informer.inform(True)
+            self.ha_informer.inform(True)
 
             GPIO.wait_for_edge(self.inpin, self.dong_edge)
             self.dong.play()
-            self.openhab_informer.inform(False)
+            self.ha_informer.inform(False)
 
     def stop(self):
         """
@@ -72,4 +72,4 @@ class Doorbell(threading.Thread):
         GPIO.cleanup()
         self.ding.stop()
         self.dong.stop()
-        self.openhab_informer.stop()
+        self.ha_informer.stop()

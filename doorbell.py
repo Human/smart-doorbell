@@ -29,14 +29,14 @@ try:
     logging.info('STARTING')
     noise_maker_ding = NoiseMaker(1)
     noise_maker_dong = NoiseMaker(2)
-    openhab_informer = OpenHABInformer()
-    configurator.register_listeners(noise_maker_ding, noise_maker_dong, openhab_informer)
+    ha_informer = OpenHABInformer()
+    configurator.register_listeners(noise_maker_ding, noise_maker_dong, ha_informer)
     configurator.start()
     while not configurator.ready():
         time.sleep(0.500)
         pass
     
-    doorbell = Doorbell(int(configurator.getint('io', 'input_pin')), configurator.getboolean('io', 'reverse_logic'), noise_maker_ding, noise_maker_dong, openhab_informer)
+    doorbell = Doorbell(int(configurator.getint('io', 'input_pin')), configurator.getboolean('io', 'reverse_logic'), noise_maker_ding, noise_maker_dong, ha_informer)
     doorbell.start()
     
     logging.info('STARTED')

@@ -24,7 +24,7 @@ class Configurator(threading.Thread):
 
     def __init__(self, config_file):
         """
-        Watches config_file and informs ding, dong, and/or openhab_informer of changes
+        Watches config_file and informs ding, dong, and/or ha_informer of changes
         they should incorporate while running.
         """
         threading.Thread.__init__(self)
@@ -35,7 +35,7 @@ class Configurator(threading.Thread):
         self.scp = ConfigParser.SafeConfigParser()
         self.ding = None
         self.dong = None
-        self.openhab_informer = None
+        self.ha_informer = None
         self.logging = logging.getLogger(self.__class__.__name__)
 
     def run(self):
@@ -58,10 +58,10 @@ class Configurator(threading.Thread):
                     self.dong.setsoundfile(self.scp.get('sound', 'dong_soundfile'))
                     self.dong.setlocation(self.scp.get('sound', 'noise_location'))
                     self.dong.setdelay(self.scp.getfloat('sound', 'dong_delay'))
-                if self.openhab_informer is not None:
-                    self.openhab_informer.seturl(self.scp.get('openhab', 'openhab_doorbell_base_URL'))
-                    self.openhab_informer.settimeout(self.scp.getint('openhab', 'timeout'))
-                    self.openhab_informer.setcollapseinterval(self.scp.getint('openhab', 'button_press_collapse_interval'))
+                if self.ha_informer is not None:
+                    self.ha_informer.seturl(self.scp.get('openhab', 'openhab_doorbell_base_URL'))
+                    self.ha_informer.settimeout(self.scp.getint('openhab', 'timeout'))
+                    self.ha_informer.setcollapseinterval(self.scp.getint('openhab', 'button_press_collapse_interval'))
             
             time.sleep(1)
 
@@ -77,10 +77,10 @@ class Configurator(threading.Thread):
         """
         return self.scp.getboolean(section, option)
 
-    def register_listeners(self, ding, dong, openhab_informer):
+    def register_listeners(self, ding, dong, ha_informer):
         self.ding = ding
         self.dong = dong
-        self.openhab_informer = openhab_informer
+        self.ha_informer = ha_informer
 
     def ready(self):
         return self.timestamp != 0.0
