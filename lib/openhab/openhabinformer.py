@@ -81,24 +81,36 @@ class OpenHABInformer(threading.Thread):
                 if self.get_on:  # button pressed
                     if time.time() - self.pressed_at > self.collapseinterval:
                         # Enough time has passed since the last ON press; we can send this ON event
+                        self.logging.debug("(" + self.__class__.__name__ + ") " + self.openhab_base_url +
+                                           " | " + self.item_name)
                         self.haupdater.updateOpenhab(self.openhab_base_url, {self.item_name: 'ON'})
-                        self.haupdater.updateHASS(self.hass_base_url, self.entity_id, {'state': 'ON'})
+                        self.logging.debug("(" + self.__class__.__name__ + ") " + self.hass_base_url +
+                                           " | " + self.entity_id)
+                        self.haupdater.updateHASS(self.hass_base_url, self.entity_id, {'state': 'on'})
                         self.logging.info("(" + self.__class__.__name__ + ") doorbell ON")
                         self.informed_off = False
                     self.pressed_at = time.time()  # always remember the last time the button was pressed
                 if self.get_off:  # button released
                     if time.time() - self.pressed_at > self.collapseinterval:
                         # Enough time has passed since the last ON press; we can send this OFF event
+                        self.logging.debug("(" + self.__class__.__name__ + ") " + self.openhab_base_url +
+                                           " | " + self.item_name)
                         self.haupdater.updateOpenhab(self.openhab_base_url, {self.item_name: 'OFF'})
-                        self.haupdater.updateHASS(self.hass_base_url, self.entity_id, {'state': 'OFF'})
+                        self.logging.debug("(" + self.__class__.__name__ + ") " + self.hass_base_url +
+                                           " | " + self.entity_id)
+                        self.haupdater.updateHASS(self.hass_base_url, self.entity_id, {'state': 'off'})
                         self.logging.info("(" + self.__class__.__name__ + ") doorbell OFF")
                         self.informed_off = True
                         # Start the timing cycle over again; the next press will count as the start of a new cycle.
                         self.pressed_at = 0
                 if not self.get_on and not self.get_off and not self.informed_off:
                     if time.time() - self.pressed_at > self.collapseinterval:
+                        self.logging.debug("(" + self.__class__.__name__ + ") " + self.openhab_base_url +
+                                           " | " + self.item_name)
                         self.haupdater.updateOpenhab(self.openhab_base_url, {self.item_name: 'OFF'})
-                        self.haupdater.updateHASS(self.hass_base_url, self.entity_id, {'state': 'OFF'})
+                        self.logging.debug("(" + self.__class__.__name__ + ") " + self.hass_base_url +
+                                           " | " + self.entity_id)
+                        self.haupdater.updateHASS(self.hass_base_url, self.entity_id, {'state': 'off'})
                         self.logging.info("(" + self.__class__.__name__ + ") doorbell OFF")
                         self.informed_off = True
                         self.pressed_at = 0
@@ -115,7 +127,7 @@ class OpenHABInformer(threading.Thread):
 
     def inform(self, on=True):
         """
-        Informs openHAB whenever the doorbell is pressed or released.
+        Informs home automation whenever the doorbell is pressed or released.
         """
         if on:
             self.get_on = True
