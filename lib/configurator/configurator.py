@@ -14,7 +14,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-import time, threading, ConfigParser, os, logging
+from configparser import ConfigParser
+import logging
+import os
+import threading
+import time
+
 
 class Configurator(threading.Thread):
     """
@@ -31,8 +36,8 @@ class Configurator(threading.Thread):
         self.daemon = True
         self.running = True
         self.config_file = config_file
-        self.timestamp = 0.0 # when the file was last updated
-        self.scp = ConfigParser.SafeConfigParser()
+        self.timestamp = 0.0  # when the file was last updated
+        self.scp = ConfigParser()
         self.ding = None
         self.dong = None
         self.ha_informer = None
@@ -59,9 +64,12 @@ class Configurator(threading.Thread):
                     self.dong.setlocation(self.scp.get('sound', 'noise_location'))
                     self.dong.setdelay(self.scp.getfloat('sound', 'dong_delay'))
                 if self.ha_informer is not None:
-                    self.ha_informer.seturl(self.scp.get('openhab', 'openhab_doorbell_base_URL'))
-                    self.ha_informer.settimeout(self.scp.getint('openhab', 'timeout'))
-                    self.ha_informer.setcollapseinterval(self.scp.getint('openhab', 'button_press_collapse_interval'))
+                    self.ha_informer.set_openhab(self.scp.get('openhab', 'openhab_base_URL'),
+                                                 self.scp.get('openhab', 'item_name'))
+                    self.ha_informer.set_hass(self.scp.get('hass', 'ha_base_URL'),
+                                              self.scp.get('hass', 'entity_id'))
+                    self.ha_informer.settimeout(self.scp.getint('ha', 'timeout'))
+                    self.ha_informer.setcollapseinterval(self.scp.getint('ha', 'button_press_collapse_interval'))
             
             time.sleep(1)
 

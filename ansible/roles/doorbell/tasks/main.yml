@@ -1,8 +1,12 @@
+- include_tasks: /repos/igopythonlibs/ansible/roles/main/tasks/main.yml
+  vars:
+    igolibs_repodir: /repos/igopythonlibs
+
 - apt: name={{item}} state=latest force=yes
   with_items:
-  - python
-  - python-rpi.gpio
-  - python-pygame
+  - python3
+  - python3-rpi.gpio
+  - python3-pygame
   - rsync
   - monit
 

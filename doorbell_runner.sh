@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /home/pi/doorbell
-nohup /usr/bin/python /home/pi/doorbell/doorbell.py &
+nohup /usr/bin/python3 /home/pi/doorbell/doorbell.py &

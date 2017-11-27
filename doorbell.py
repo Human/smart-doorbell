@@ -14,12 +14,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+import logging
+import logging.config
+import time
+
+from lib.configurator.configurator import Configurator
 from lib.doorbell.doorbell import Doorbell
 from lib.noisemaker.noisemaker import NoiseMaker
-from lib.configurator.configurator import Configurator
 from lib.openhab.openhabinformer import OpenHABInformer
-
-import time, logging, logging.config
 
 configurator = Configurator('doorbell_config.ini')
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
