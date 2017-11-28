@@ -64,7 +64,7 @@
     ```
 1. Press and release the button as you would a normal doorbell.
 
-##For [openHAB](http://www.openhab.org/) Integration
+## For [openHAB](http://www.openhab.org/) Integration
 
 * In [openHAB](http://www.openhab.org/), add a "virtual" doorbell in your ```.items``` file for the doorbell, like so:
 ```
@@ -91,7 +91,7 @@ openhab_base_URL:http://openhab.igo:8080/CMD/
 item_name:Button_FF_Doorbell
 ```
 
-##For [Home Assistant](https://home-assistant.io/) Integration
+## For [Home Assistant](https://home-assistant.io/) Integration
 
 * In [Home Assistant](https://home-assistant.io/), add a "virtual" doorbell in ```configuration.yaml``` as an ```input_boolean```, like so:
 ```
