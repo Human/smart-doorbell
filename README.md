@@ -1,8 +1,8 @@
-#Purpose
+# Purpose
 
 * This program turns your Raspberry Pi into a doorbell. It can replace a traditional hardware doorbell, and it integrates with [openHAB](http://www.openhab.org/) and has a number of customization features.
 
-#Features
+# Features
 
 1. Integration with [openHAB](http://www.openhab.org/) via its [simple HTTP API](https://code.google.com/p/openhab-samples/wiki/Tricks#Use_URL_to_manipulate_items).  Know if your doorbell's been rung and take actions accordingly.
 
@@ -17,9 +17,9 @@
 1. On-the-fly re-load of configuration changes. This makes the configurable sound feature more powerful.
 
 
-#HOWTO
+# HOWTO
 
-##What You Need
+## What You Need
 
 * Raspberry Pi. (Rev B tested, but any revision should work.)
 
@@ -35,7 +35,7 @@
 
 * Basic Linux skills (file copying and editing).
 
-##For all Doorbell Types
+## For all Doorbell Types
 
 1. Wire up a pushbutton on a GPIO pin of your choosing.
     1. There are many different ways to do this. _See online HOWTOs for doing this properly.
@@ -122,19 +122,19 @@ ha_base_URL:http://hass.igo:8123/api/states/
 entity_id:binary_sensor.doorbell
 ```
 
-##Additional Options
+## Additional Options
 
 * See the comments in ```doorbell_config.ini``` to learn about the other ways you can configure your doorbell.
 
-##For a Traditional Two-Tone Doorbell
+## For a Traditional Two-Tone Doorbell
 
 1. As above, but create or find two bell tones in WAV format. The 'DING' tone should be 3 half-tones in pitch higher than the 'DONG' tone.
 
-##For a Novelty Doorbell
+## For a Novelty Doorbell
 
 1. As above, using any two WAV files you like.
 
-###Example Novelty Ideas
+### Example Novelty Ideas
 
 * DING: **"somebody's"** DONG: **"at the door"**
 
@@ -146,11 +146,11 @@ entity_id:binary_sensor.doorbell
 
     * For the accent sound, write a script that periodically edits ```doorbell_config.ini``` to point ```dong_soundfile``` at a different WAV file.
 
-##Third-Party Extension Ideas
+## Third-Party Extension Ideas
 
 1. Alter ```doorbell_config.ini``` to point to different sounds when different external conditions occur, such as calendar events (keywords, holidays, etc.), times of day.
 
-###Example Third-Party Extension Ideas
+### Example Third-Party Extension Ideas
 
 * DING: **"Happy"** DONG: **"Easter"**
 
@@ -162,10 +162,10 @@ entity_id:binary_sensor.doorbell
 
 * DING: **"Hi. We're asleep right now, so please leave a message after the beep. _BEEP_"** DONG: **(silence)**
 
-####[Boodler](http://boodler.org/)
+#### [Boodler](http://boodler.org/)
 
 * [Boodler](http://boodler.org/) is a Python soundscape generator. You could either generate "canned" instances of dynamically-generated soundscapes and switch between them using methods outlined above, or you could extend the software architecture to invoke [Boodler](http://boodler.org/) instead of playing WAV files.
 
-#Questions?
+# Questions?
 
 * I'm happy to field any questions in the comments on my corresponding [blog post](http://bob.igo.name/?p=222).
