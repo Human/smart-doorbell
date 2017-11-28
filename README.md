@@ -85,9 +85,9 @@ then
 end
 ```
 
-* In ```doorbell_config.ini```, edit ```openhab_doorbell_base_URL``` to point to the URL for your virtual doorbell. For example:
+* In ```doorbell_config.ini```, edit ```ha_doorbell_item_URL``` to point to the URL for your virtual doorbell. For example:
 ```
-openhab_doorbell_base_URL:http://bbb1:8080/CMD?Button_Front_Doorbell
+ha_doorbell_item_URL:http://bbb1:8080/CMD?Button_Front_Doorbell
 ```
 
 ##Additional Options
