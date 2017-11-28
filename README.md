@@ -85,9 +85,41 @@ then
 end
 ```
 
-* In ```doorbell_config.ini```, edit ```openhab_doorbell_base_URL``` to point to the URL for your virtual doorbell. For example:
+* In ```doorbell_config.ini```, edit ```openhab_base_URL``` to point to the URL for your openHAB instance, and edit ```item_name``` to match your virtual doorbell. For example:
 ```
-openhab_doorbell_base_URL:http://bbb1:8080/CMD?Button_Front_Doorbell
+openhab_base_URL:http://openhab.igo:8080/CMD/
+item_name:Button_FF_Doorbell
+```
+
+##For [Home Assistant](https://home-assistant.io/) Integration
+
+* In [Home Assistant](https://home-assistant.io/), add a "virtual" doorbell in ```configuration.yaml``` as an ```input_boolean```, like so:
+```
+input_boolean:
+  doorbell:
+    name: doorbell state
+    initial: off
+```
+
+* Set up an automation you'd like to fire when it's pressed and released. Example automation:
+```
+- alias: notify of doorbell ring
+  trigger:
+    platform: state
+    entity_id: binary_sensor.doorbell
+    from: 'off'
+    to: 'on'
+  action:
+    service: notify.medium_priority
+    data:
+      title: ''
+      message: 'DOORBELL'
+```
+
+* In ```doorbell_config.ini```, edit ```ha_base_URL``` to point to the URL for your Home Assistant instance, and edit ```entity_id``` to match your virtual doorbell. For example:
+```
+ha_base_URL:http://hass.igo:8123/api/states/
+entity_id:binary_sensor.doorbell
 ```
 
 ##Additional Options
